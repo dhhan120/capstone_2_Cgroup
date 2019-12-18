@@ -1,0 +1,8 @@
+prefix=/home/lps/capstone_2/devel
+
+Name: hector_map_server
+Description: Description of hector_map_server
+Version: 0.3.5
+Cflags: 
+Libs: -L/home/lps/capstone_2/devel/lib 
+Requires: 

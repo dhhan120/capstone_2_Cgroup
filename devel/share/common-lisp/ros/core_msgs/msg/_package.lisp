@@ -1,0 +1,19 @@
+(cl:defpackage core_msgs-msg
+  (:use )
+  (:export
+   "<BALL_COLLECT>"
+   "BALL_COLLECT"
+   "<BALL_POSITION>"
+   "BALL_POSITION"
+   "<BALL_POSITION_2>"
+   "BALL_POSITION_2"
+   "<BALL_POSITION_MODIFY>"
+   "BALL_POSITION_MODIFY"
+   "<MARKERMSG>"
+   "MARKERMSG"
+   "<MULTIARRAY>"
+   "MULTIARRAY"
+   "<WALL_DISTANCE>"
+   "WALL_DISTANCE"
+  ))
+

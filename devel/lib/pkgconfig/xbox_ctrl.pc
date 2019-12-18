@@ -1,0 +1,8 @@
+prefix=/home/lps/capstone_2/devel
+
+Name: xbox_ctrl
+Description: Description of xbox_ctrl
+Version: 0.1.0
+Cflags: -I/home/lps/capstone_2/src/xbox_ctrl/include
+Libs: -L/home/lps/capstone_2/devel/lib -lxbox_ctrl
+Requires: roscpp

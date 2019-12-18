@@ -1,0 +1,8 @@
+prefix=/home/lps/capstone_2/devel
+
+Name: m_robot_description
+Description: Description of m_robot_description
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/lps/capstone_2/devel/lib 
+Requires: 

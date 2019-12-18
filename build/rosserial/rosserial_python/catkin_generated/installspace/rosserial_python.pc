@@ -1,0 +1,8 @@
+prefix=/home/lps/capstone_2/install
+
+Name: rosserial_python
+Description: Description of rosserial_python
+Version: 0.8.0
+Cflags: 
+Libs: -L/home/lps/capstone_2/install/lib 
+Requires: 

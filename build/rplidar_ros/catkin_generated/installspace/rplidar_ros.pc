@@ -1,0 +1,8 @@
+prefix=/home/lps/capstone_2/install
+
+Name: rplidar_ros
+Description: Description of rplidar_ros
+Version: 1.5.7
+Cflags: 
+Libs: -L/home/lps/capstone_2/install/lib 
+Requires: 

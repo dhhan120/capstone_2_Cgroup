@@ -1,0 +1,8 @@
+prefix=/home/lps/capstone_2/install
+
+Name: readmarker
+Description: Description of readmarker
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/lps/capstone_2/install/lib -lreadmarker
+Requires: std_msgs roscpp

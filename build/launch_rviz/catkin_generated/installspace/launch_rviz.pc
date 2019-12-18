@@ -1,0 +1,8 @@
+prefix=/home/lps/capstone_2/install
+
+Name: launch_rviz
+Description: Description of launch_rviz
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/lps/capstone_2/install/lib 
+Requires: 

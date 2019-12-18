@@ -1,0 +1,8 @@
+prefix=/home/lps/capstone_2/devel
+
+Name: webcam
+Description: Description of webcam
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/lps/capstone_2/devel/lib 
+Requires: 

@@ -1,0 +1,8 @@
+prefix=/home/lps/capstone_2/devel
+
+Name: aruco
+Description: Description of aruco
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/lps/capstone_2/devel/lib 
+Requires: 

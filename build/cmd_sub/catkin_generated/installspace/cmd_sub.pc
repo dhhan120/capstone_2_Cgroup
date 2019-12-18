@@ -1,0 +1,8 @@
+prefix=/home/lps/capstone_2/install
+
+Name: cmd_sub
+Description: Description of cmd_sub
+Version: 0.1.0
+Cflags: 
+Libs: -L/home/lps/capstone_2/install/lib 
+Requires: 

@@ -1,0 +1,2 @@
+set(core_msgs_MESSAGE_FILES "/home/lps/capstone_2/src/core_msgs/msg/ball_position.msg;/home/lps/capstone_2/src/core_msgs/msg/ball_position_2.msg;/home/lps/capstone_2/src/core_msgs/msg/ball_position_modify.msg;/home/lps/capstone_2/src/core_msgs/msg/multiarray.msg;/home/lps/capstone_2/src/core_msgs/msg/markermsg.msg;/home/lps/capstone_2/src/core_msgs/msg/wall_distance.msg;/home/lps/capstone_2/src/core_msgs/msg/ball_collect.msg")
+set(core_msgs_SERVICE_FILES "")
