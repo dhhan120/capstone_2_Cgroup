@@ -150,48 +150,45 @@ void stop();
 //dealing with ball informations from webcam2
 void camera2_Callback(const core_msgs::ball_position_2::ConstPtr& position_modify2)
 {
-	  map_mutex.lock();//do nothing until finishing function of camear2_Callback
+	map_mutex.lock();//do nothing until finishing function of camear2_Callback
+	cout<<"callback 2 start"<<endl;
+	//initializing x, y, z values of balls
+	web2_red_X = -100;
+	web2_red_Z = 100;
+	web2_blue_X = -100;
+	web2_blue_Z = 100;
+	// assigning number of balls detected
+	web2_red_number = position_modify2->r_size;
+	web2_blue_number = position_modify2->b_size;
 
-		cout<<"callback 2 start"<<endl;
+	cout<<"total number of red balls from webcam2:"<<web2_red_number<<endl;
+	cout<<"total number of blue balls from webcam2:"<<web2_blue_number<<endl;
 
-		//initializing x, y, z values of balls
-		web2_red_X = -100;
-		web2_red_Z = 100;
-		web2_blue_X = -100;
-		web2_blue_Z = 100;
-	  // assigning number of balls detected
-    web2_red_number = position_modify2->r_size;
-		web2_blue_number = position_modify2->b_size;
-
-    cout<<"total number of red balls from webcam2:"<<web2_red_number<<endl;
-    cout<<"total number of blue balls from webcam2:"<<web2_blue_number<<endl;
-
-		// assigning x,z position of closest red ball
-    for(int i = 0; i < web2_red_number; i++)
-    {
-        web2_red_Z_array[i] = position_modify2->r_img_z[i];
-				if(web2_red_Z > position_modify2->r_img_z[i]){
-					web2_red_Z = position_modify2->r_img_z[i];
-					web2_red_X = position_modify2->r_img_x[i];
-				}
-    cout<<"web2 red circle("<<i<<"):z="<<web2_red_Z_array[i]<<", z="<<endl;			//[groupD] for check
-    }
-
-		// assigning x,z position of closest blue ball
-		for(int i = 0; i < web2_blue_number; i++)
-		{
-				web2_blue_Z_array[i] = position_modify2->b_img_z[i];
-				if(web2_blue_Z > position_modify2->b_img_z[i]){
-					web2_blue_X = position_modify2->b_img_x[i];
-					web2_blue_Z = position_modify2->b_img_z[i];
-				}
-		cout<<"web2 blue circle("<<i<<"):z="<<web2_blue_Z_array[i]<<endl;			//[groupD] for check
+	// assigning x,z position of closest red ball
+    	for(int i = 0; i < web2_red_number; i++)
+    	{
+        	web2_red_Z_array[i] = position_modify2->r_img_z[i];
+		if(web2_red_Z > position_modify2->r_img_z[i]){
+			web2_red_Z = position_modify2->r_img_z[i];
+			web2_red_X = position_modify2->r_img_x[i];
 		}
+    	cout<<"web2 red circle("<<i<<"):z="<<web2_red_Z_array[i]<<", z="<<endl;			//[groupD] for check
+    	}
 
-		//find max and min of web2_green_x when web2 green number > 2.
-    cout<<"callback 2 end"<<endl;
+	// assigning x,z position of closest blue ball
+	for(int i = 0; i < web2_blue_number; i++)
+	{
+		web2_blue_Z_array[i] = position_modify2->b_img_z[i];
+		if(web2_blue_Z > position_modify2->b_img_z[i]){
+			web2_blue_X = position_modify2->b_img_x[i];
+			web2_blue_Z = position_modify2->b_img_z[i];
+		}
+		cout<<"web2 blue circle("<<i<<"):z="<<web2_blue_Z_array[i]<<endl;			//[groupD] for check
+	}
 
-		map_mutex.unlock();
+	//find max and min of web2_green_x when web2 green number > 2.
+ 	out<<"callback 2 end"<<endl;
+	map_mutex.unlock();
 }
 
 void suction_check(){
@@ -210,21 +207,15 @@ void sleep_count(float sleeprate){
 	cout<<"suc ="<<suc<<endl;
 	cout<<"collection is "<<collection<<endl;
 	cout<<"direction_release is "<<release_direction<<endl;
-  //recognize a ball collected, 0.5sec after blue ball disappears from webcam2 with suction_switch on
+	//recognize a ball collected, 0.5sec after blue ball disappears from webcam2 with suction_switch on
 	if(collection<2){
 		if(0.6<=suc && suction_switch ==1){
-				collection = collection + 1;
-				suction_switch =0;
-				cout <<"collected 2 balls"<<endl;
-			// }
-			// else{
-			// 	collection = collection + 1;
-			// 	suction_switch = 0;
-			// 	cout<<"collected a ball!"<<endl;
-			// }
-				}
-			 }
-  else{
+			collection = collection + 1;
+			suction_switch =0;
+			cout <<"collected 2 balls"<<endl;
+		}
+	}
+	else{
 		if(0.1<=suc && suction_switch ==1){
 			collection = collection + 1;
 			suction_switch = 0;
@@ -235,63 +226,35 @@ void sleep_count(float sleeprate){
 
 
 
-
-
-// void move_left(float v){
-// 	//move left, accelerate til speed 0.8
-// 	if(data[0]>-v){
-// 	data[0] = data[0]-acc;
-// 	data[1] = 0;
-// 	data[4] = 0;
-// 	data[5] = 0;
-//    }
-// 	 suction_check();
-// 	write(c_socket, data, sizeof(data));
-// 	cout<<"void move left"<<endl;
-// 	ROS_INFO("%f, %f, %f, %f, %f", data[0], data[1], data[4], data[5],	data[21]);
-// }
-//
-// void move_right(float v){
-// 	//move right, accelerate til speed 0.8
-// 	if(data[0]<v){
-// 	data[0] = data[0]+acc;
-// 	data[1] = 0;
-// 	data[4] = 0;
-// 	data[5] = 0;
-// }
-//   suction_check();
-// 	write(c_socket, data, sizeof(data));
-// 	cout<<"void move right"<<endl;
-// 	ROS_INFO("%f, %f, %f, %f, %f", data[0], data[1], data[4], data[5],	data[21]);
-// }
-
 void pick_up_blue(){
 	if(web2_blue_X > -2.0 && web2_blue_X < 2){
 		suction_switch = 1;
 	}//turn on suction_switch when entering pick_up step - in order to count ball collected
-  suc = 0;//initializing suc in order to turn on suction motor
+	suc = 0;//initializing suc in order to turn on suction motor
 
-  cout<<"void starting pickup"<<endl;
+  	cout<<"void starting pickup"<<endl;
 
 	//adjusting direction towards blue ball
 	if(web2_blue_X>1.5+web2_center){//if x position of blue ball is over 1
-	 while(web2_blue_X>1+web2_center && web2_blue_number != 0){//turn CW until x positoin of blue ball is less than 0.6
-		 turn_CW(0.05);
-		 ros::spinOnce();
-		 ros::Duration(t).sleep();
-	 }
- }
-	else if(web2_blue_X<-1.5+web2_center){//if x position of blue ball is less than -1
-	 while(web2_blue_X<-1+web2_center && web2_blue_number != 0){//turn CCW until x position of blue ball is over -0.6
-		turn_CCW(0.05);
-		ros::spinOnce();
-		ros::Duration(t).sleep();
+		while(web2_blue_X>1+web2_center && web2_blue_number != 0){//turn CW until x positoin of blue ball is less than 0.6
+			turn_CW(0.05);
+			ros::spinOnce();
+			ros::Duration(t).sleep();
+	 	}
+ 	}
+	else if(web2_blue_X<-1.5+web2_center){
+		//if x position of blue ball is less than -1
+		while(web2_blue_X<-1+web2_center && web2_blue_number != 0){\
+			//turn CCW until x position of blue ball is over -0.6
+			turn_CCW(0.05);
+			ros::spinOnce();
+			ros::Duration(t).sleep();
 		}
 	 }
 	else{//go forward if blue ball is in the 5middle
-		if(web2_blue_Z < 0.4) move_forward(0.05);
-	 	else move_forward(0.1);
-  }
+	if(web2_blue_Z < 0.4) move_forward(0.05);
+	else move_forward(0.1);
+  	}
 }
 
 
@@ -299,26 +262,29 @@ void pick_up_red(){
 	if(web2_red_X > -2.0 && web2_red_X < 2.0){
 		suction_switch = 1;
 	}//turn on suction_switch when entering pick_up step - in order to count ball collected
-  suc = 0;//initializing suc in order to turn on suction motor
+  	suc = 0;//initializing suc in order to turn on suction motor
 
-  cout<<"void starting pickup"<<endl;
+  	cout<<"void starting pickup"<<endl;
 
 	//adjusting direction towards blue ball
-	if(web2_red_X>1.5+web2_center){//if x position of blue ball is over 1
-	 while(web2_red_X>1+web2_center && web2_red_number != 0){//turn CW until x positoin of blue ball is less than 0.6
-		 turn_CW(0.05);
-		 ros::spinOnce();
-		 ros::Duration(t).sleep();
-	 }
-	}
-	else if(web2_red_X<-1.5+web2_center){//if x position of blue ball is less than -1
-	 while(web2_red_X<-1+web2_center && web2_red_number != 0){//turn CCW until x position of blue ball is over -0.6
-		turn_CCW(0.05);
-		ros::spinOnce();
-		ros::Duration(t).sleep();
+	if(web2_red_X>1.5+web2_center){//if x position of blue ball is over 1.5
+		while(web2_red_X>1+web2_center && web2_red_number != 0){//turn CW until x positoin of blue ball is less than 0.6
+			turn_CW(0.05);
+			ros::spinOnce();
+			ros::Duration(t).sleep();
 		}
-	 }
-	else{//go forward if blue ball is in the middle
+	}
+	else if(web2_red_X<-1.5+web2_center){
+		//if x position of blue ball is less than -1.5
+		while(web2_red_X<-1+web2_center && web2_red_number != 0){
+			//turn CCW until x position of blue ball is over -0.6
+			turn_CCW(0.05);
+			ros::spinOnce();
+			ros::Duration(t).sleep();
+		}
+	}
+	else{
+		//go forward if blue ball is in the middle
 		if(web2_red_Z < 0.4) move_forward(0.05);
 	 	else move_forward(0.1);
   }
@@ -334,7 +300,7 @@ void choose_pick(){ //choose a ball to pick, and change the state of sorting mot
 		if(web2_blue_Z < 0.25)
 		{
 			data20 = 1; //move stick left -> blue ball stores in right
-			data21 = 0; // 5 sec holding
+			data21 = 0; 
 		}
 		pick_up_blue();
 	}
@@ -342,8 +308,8 @@ void choose_pick(){ //choose a ball to pick, and change the state of sorting mot
 		cout<<"pick red";
 		if(web2_red_Z < 0.25)
 		{
-			data20 = 0; //move stick left -> blue ball stores in right
-			data21 = 1; // 5 sec holding
+			data20 = 0; //move stick right -> red ball stores in left
+			data21 = 1; 
 		}
 		pick_up_red();
 	}
@@ -352,18 +318,8 @@ void choose_pick(){ //choose a ball to pick, and change the state of sorting mot
 ros::Publisher pub;
 core_msgs::ball_collect msg;
 
-// void ballcheckCallback(const std_msgs::Int32::ConstPtr& msg){
-// 	ball_pass[ii%30] = msg->data;
-// 	for(int j = 0; j < 30; j++ ){
-// 		if (ball_pass[j] == 1) {
-// 			delay = 1;
-// 			break;
-// 		}
-// 		else delay = 0;
-// 	}
-// }
-
 void exitCallback(const std_msgs::Int32::ConstPtr& msg){
+	//
 	if (msg->data > 5){
 		ROS_INFO("ball_collect node process terminated");
 		exit(0);
@@ -372,53 +328,42 @@ void exitCallback(const std_msgs::Int32::ConstPtr& msg){
 
 int main(int argc, char **argv)
 {
-		data20 = 0;
-		data21 = 0;
-    ros::init(argc, argv, "ball_collect_node");
-		ros::NodeHandle n;
-		pub = n.advertise<core_msgs::ball_collect>("/collect_order", 100); //setting publisher
+	data20 = 0;
+	data21 = 0;
+    	ros::init(argc, argv, "ball_collect_node");
+	ros::NodeHandle n;
+	pub = n.advertise<core_msgs::ball_collect>("/collect_order", 100); //setting publisher
 
-
-    //ros::Subscriber sub = n.subscribe<sensor_msgs::LaserScan>("/scan", 1000, lidar_Callback);
-    ros::Subscriber sub2 = n.subscribe<core_msgs::ball_position_2>("/position_modify2", 1, camera2_Callback);
-		ros::Subscriber sub3 = n.subscribe<std_msgs::Int32>("/picked_balls",1,exitCallback);
-		while(ros::ok){
-			// [groupD]
-			//map_mutex.lock();
-			dataInit();
-      ros::spinOnce();
-     	//map_mutex.unlock()
-			if(web2_blue_number!=0||web2_red_number!=0){
-				choose_pick();
-			}
-			else {
-				//ros::Duration(1).sleep();
-				stop();
-			}
-
-			ROS_INFO("%f, %f, %f, %f, %f", data00, data01, data04, data05,	data16);
-			cout<<"end of while loop"<<endl;
-	    sleep_count(t);
-
-
-	 	}
-		 //ROS_INFO("%f, %f, %f, %f, %f", data[0], data[1], data[4], data[5],	data[21]);  // for exp
-     //write(c_socket, data, sizeof(data));
-    cout<<"quit while loop"<<endl;
-
-    return 0;
+	ros::Subscriber sub2 = n.subscribe<core_msgs::ball_position_2>("/position_modify2", 1, camera2_Callback);
+	ros::Subscriber sub3 = n.subscribe<std_msgs::Int32>("/picked_balls",1,exitCallback);
+	while(ros::ok){
+		dataInit();
+      		ros::spinOnce();
+		if(web2_blue_number!=0||web2_red_number!=0){
+			choose_pick();
+		}
+		else {
+			//ros::Duration(1).sleep();
+			stop();
+		}
+		ROS_INFO("%f, %f, %f, %f, %f", data00, data01, data04, data05,	data16);
+		cout<<"end of while loop"<<endl;
+	    	sleep_count(t);
+	}
+	cout<<"quit while loop"<<endl;
+	return 0;
 }
 
 static float first_2 = 10;
 
 void move_forward(float v){
 	first_2 = 10;
-	 //move as speed v, when red ball is not close to the ball
-	 //accelerate til speed v
-	 data00 = v;
-	 data01 = v;
-	 data04 = v;
-	 data05 = v;
+	//move as speed v, when red ball is not close to the ball
+	//accelerate til speed v
+	data00 = v;
+	data01 = v;
+	data04 = v;
+	data05 = v;
 	suction_check();
 	pick_start = 1;
 	msg.data00 = data00;
@@ -448,89 +393,90 @@ void move_forward(float v){
 	msg.pick_start = pick_start;
 	cout<<"message input done"<<endl;
 	pub.publish(msg);
-  cout<<"void move forward"<<endl;
+ 	cout<<"void move forward"<<endl;
 	ROS_INFO("%f, %f, %f, %f, %f", data00, data01, data04, data05,	data21);
  }
 
 void turn_CW(float w){
- first_2 = 10;
- //turn CW with speed of w
- data00 = w;
- data01 = -w;
- data04 = w;
- data05 = -w;
- pick_start = 1;
- suction_check();
- msg.data00 = data00;
- msg.data01 = data01;
- msg.data02 = data02;
- msg.data03 = data03;
- msg.data04 = data04;
- msg.data05 = data05;
- msg.data06 = data06;
- msg.data07 = data07;
- msg.data08 = data08;
- msg.data09 = data09;
- msg.data10 = data10;
- msg.data11 = data11;
- msg.data12 = data12;
- msg.data13 = data13;
- msg.data14 = data14;
- msg.data15 = data15;
- msg.data16 = data16;
- msg.data17 = data17;
- msg.data18 = data18;
- msg.data19 = data19;
- msg.data20 = data20;
- msg.data21 = data21;
- msg.data22 = data22;
- msg.data23 = data23;
- msg.pick_start = pick_start;
- cout<<"message input done"<<endl;
- pub.publish(msg);
- cout<<"void turn CW"<<endl;
- ROS_INFO("%f, %f, %f, %f, %f", data[0], data[1], data[4], data[5],	data[21]);
+	first_2 = 10;
+	//turn CW with speed of w
+	data00 = w;
+	data01 = -w;
+	data04 = w;
+	data05 = -w;
+	pick_start = 1;
+	suction_check();
+	msg.data00 = data00;
+	msg.data01 = data01;
+	msg.data02 = data02;
+	msg.data03 = data03;
+	msg.data04 = data04;
+	msg.data05 = data05;
+	msg.data06 = data06;
+	msg.data07 = data07;
+	msg.data08 = data08;
+	msg.data09 = data09;
+	msg.data10 = data10;
+	msg.data11 = data11;
+	msg.data12 = data12;
+	msg.data13 = data13;
+	msg.data14 = data14;
+	msg.data15 = data15;
+	msg.data16 = data16;
+	msg.data17 = data17;
+	msg.data18 = data18;
+	msg.data19 = data19;
+	msg.data20 = data20;
+	msg.data21 = data21;
+	msg.data22 = data22;
+	msg.data23 = data23;
+	msg.pick_start = pick_start;
+	cout<<"message input done"<<endl;
+	pub.publish(msg);
+	cout<<"void turn CW"<<endl;
+	ROS_INFO("%f, %f, %f, %f, %f", data[0], data[1], data[4], data[5],	data[21]);
 }
 
 void turn_CCW(float w){
- //turn CCW with speed of w
- first_2 = 10;
- data00 = -w;
- data01 = w;
- data04 = -w;
- data05 = w;
- pick_start = 1;
- suction_check();
- msg.data00 = data00;
- msg.data01 = data01;
- msg.data02 = data02;
- msg.data03 = data03;
- msg.data04 = data04;
- msg.data05 = data05;
- msg.data06 = data06;
- msg.data07 = data07;
- msg.data08 = data08;
- msg.data09 = data09;
- msg.data10 = data10;
- msg.data11 = data11;
- msg.data12 = data12;
- msg.data13 = data13;
- msg.data14 = data14;
- msg.data15 = data15;
- msg.data16 = data16;
- msg.data17 = data17;
- msg.data18 = data18;
- msg.data19 = data19;
- msg.data20 = data20;
- msg.data21 = data21;
- msg.data22 = data22;
- msg.data23 = data23;
- msg.pick_start = pick_start;
- cout<<"message input done"<<endl;
- pub.publish(msg);
- cout<<"void turn CCW"<<endl;
-ROS_INFO("%f, %f, %f, %f, %f", data00, data01, data04, data05,	data21);
+//turn CCW with speed of w
+	first_2 = 10;
+	data00 = -w;
+	data01 = w;
+	data04 = -w;
+	data05 = w;
+	pick_start = 1;
+	suction_check();
+	msg.data00 = data00;
+	msg.data01 = data01;
+	msg.data02 = data02;
+	msg.data03 = data03;
+	msg.data04 = data04;
+	msg.data05 = data05;
+	msg.data06 = data06;
+	msg.data07 = data07;
+	msg.data08 = data08;
+	msg.data09 = data09;
+	msg.data10 = data10;
+	msg.data11 = data11;
+	msg.data12 = data12;
+	msg.data13 = data13;
+	msg.data14 = data14;
+	msg.data15 = data15;
+	msg.data16 = data16;
+	msg.data17 = data17;
+	msg.data18 = data18;
+	msg.data19 = data19;
+	msg.data20 = data20;
+	msg.data21 = data21;
+	msg.data22 = data22;
+	msg.data23 = data23;
+	msg.pick_start = pick_start;
+	cout<<"message input done"<<endl;
+	pub.publish(msg);
+	cout<<"void turn CCW"<<endl;
+	ROS_INFO("%f, %f, %f, %f, %f", data00, data01, data04, data05,	data21);
 }
+
 void stop(){
 	ROS_INFO("stop is running");
 	//turn CCW with speed of w
@@ -571,7 +517,6 @@ void stop(){
 	else {
 		msg.pick_start = 0;
 	}
-
 
 	pub.publish(msg);
 
